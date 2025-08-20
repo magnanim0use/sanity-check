@@ -1,6 +1,25 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import * as cheerio from 'cheerio';
 
+// Helper function to detect login redirects
+const isLoginRedirect = (url: string): boolean => {
+  const loginPatterns = [
+    '/login',
+    '/signin',
+    '/auth',
+    '/authentication',
+    '/sso',
+    'accounts.google.com',
+    'login.microsoftonline.com',
+    'www.facebook.com/login',
+    'linkedin.com/login',
+    'slack.com/signin'
+  ];
+  
+  const urlLower = url.toLowerCase();
+  return loginPatterns.some(pattern => urlLower.includes(pattern));
+};
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -22,6 +41,7 @@ export default async function handler(
       throw new Error('Invalid protocol');
     }
 
+
     // Fetch the page with timeout and user agent
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
@@ -35,6 +55,39 @@ export default async function handler(
     });
 
     clearTimeout(timeoutId);
+
+    // Handle authentication and authorization responses
+    if (response.status === 401 || response.status === 403) {
+      return res.status(200).json({
+        success: false,
+        error: 'This content requires authentication to access',
+        errorType: 'authentication_required',
+        suggestion: 'Please copy and paste the content manually',
+        shouldPromptForManualEntry: true,
+      });
+    }
+
+    if (response.status === 429) {
+      return res.status(200).json({
+        success: false,
+        error: 'Rate limited by the website',
+        errorType: 'rate_limited',
+        suggestion: 'Please try again in a few minutes or paste content manually',
+        shouldPromptForManualEntry: true,
+      });
+    }
+
+    // Check for redirects to login pages
+    const finalUrl = response.url;
+    if (finalUrl !== url && isLoginRedirect(finalUrl)) {
+      return res.status(200).json({
+        success: false,
+        error: 'This content requires login to access',
+        errorType: 'login_redirect',
+        suggestion: 'Please copy and paste the content manually',
+        shouldPromptForManualEntry: true,
+      });
+    }
 
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -91,18 +144,26 @@ export default async function handler(
     
     // Return structured error for frontend handling
     let errorMessage = 'Failed to extract content from URL';
+    let errorType = 'network';
     
     if ((error as Error).name === 'AbortError') {
       errorMessage = 'Request timed out - the page took too long to load';
+      errorType = 'timeout';
     } else if ((error as Error).message.includes('HTTP')) {
       errorMessage = `Could not access the page: ${(error as Error).message}`;
+      errorType = 'http';
     } else if ((error as Error).message.includes('Invalid URL')) {
       errorMessage = 'Please enter a valid URL starting with http:// or https://';
+      errorType = 'invalid';
+    } else if ((error as Error).message.includes('meaningful content')) {
+      errorMessage = 'Could not find readable content on this page';
+      errorType = 'parsing';
     }
 
     res.status(400).json({ 
       success: false,
       error: errorMessage,
+      errorType,
       shouldPromptForManualEntry: true
     });
   }

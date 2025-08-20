@@ -1,3 +1,4 @@
+
 export const isValidUrl = (string: string): boolean => {
   try {
     const url = new URL(string.trim());
@@ -14,3 +15,4 @@ export const extractDomain = (url: string): string => {
     return 'unknown';
   }
 };
+

@@ -26,6 +26,7 @@ export function ContextInput({
 
     // Check if the input looks like a URL
     if (isValidUrl(value)) {
+      // Always attempt extraction - auth issues will be handled by the API
       await extractUrlContent(value);
     }
   };
@@ -87,6 +88,7 @@ export function ContextInput({
         </div>
       )}
 
+
       {extractionError && (
         <div className="extraction-error">
           <div className="error-message">
@@ -117,7 +119,7 @@ export function ContextInput({
         onChange={(e) => handleContextChange(e.target.value)}
         placeholder={
           showManualEntry 
-            ? "Please paste the page content here manually..."
+            ? "Please paste the content here manually..."
             : "Paste a URL (LinkedIn job, company page, etc.) or the actual content..."
         }
         rows={6}

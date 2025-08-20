@@ -1,0 +1,109 @@
+.context-input-container {
+  margin-bottom: 1.5rem;
+}
+
+.extraction-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background-color: #e3f2fd;
+  border: 1px solid #90caf9;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: #1565c0;
+}
+
+.loading-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #e3f2fd;
+  border-top: 2px solid #1565c0;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.extraction-error {
+  background-color: #fff3e0;
+  border: 1px solid #ffb74d;
+  border-radius: 4px;
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.error-message {
+  color: #e65100;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.error-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.retry-button, .manual-button {
+  padding: 0.25rem 0.75rem;
+  border: 1px solid #ff9800;
+  background-color: #fff;
+  color: #e65100;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.2s ease;
+}
+
+.retry-button:hover, .manual-button:hover {
+  background-color: #fff3e0;
+}
+
+.context-textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  resize: vertical;
+  min-height: 120px;
+}
+
+.context-textarea:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.context-help {
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+}
+
+.platform-select {
+  margin-top: 1rem;
+}
+
+.platform-select label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.platform-select select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}

@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "pages/api/sanity-check.js": {
+      "maxDuration": 30
+    }
+  }
+}

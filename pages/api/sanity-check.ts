@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import OpenAI from 'openai';
+import { validateSanityCheckInput, handleValidationError } from '../../utils/inputValidation';
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -37,11 +38,13 @@ export default async function handler(
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { message, context, platform } = req.body;
-
-  if (!message) {
-    return res.status(400).json({ error: 'Message is required' });
+  // Unified input validation
+  const validation = validateSanityCheckInput(req, req.body);
+  if (!validation.isValid) {
+    return handleValidationError(res, validation);
   }
+
+  const { message, context, platform } = validation.sanitizedInputs!;
 
   try {
     const completion = await openai.chat.completions.create({
@@ -50,8 +53,7 @@ export default async function handler(
         { role: "system", content: SANITY_CHECK_PROMPT },
         { 
           role: "user", 
-          content: `
-MESSAGE TO CHECK:
+          content: `MESSAGE TO CHECK:
 """
 ${message}
 """

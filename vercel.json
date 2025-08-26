@@ -1,12 +1,4 @@
 {
-  "version": 2,
-  "name": "sanity-check",
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/next"
-    }
-  ],
   "functions": {
     "pages/api/sanity-check.ts": {
       "maxDuration": 30

@@ -32,7 +32,7 @@ export default function Home() {
         body: JSON.stringify({
           message: message.trim(),
           context: context.trim(),
-          platform: platform.trim()
+          platform: platform.trim(),
         }),
       });
 
@@ -53,17 +53,17 @@ export default function Home() {
   return (
     <div className="container">
       <header className="header">
-        <h1>Message Sanity Check</h1>
-        <p>Catch embarrassing mistakes before you hit send</p>
+        <h1>Sanity Check: The AI-Powered Message Editor</h1>
+        <p>Check yourself before you hit send</p>
       </header>
 
       <main className="main">
-        <MessageInput 
+        <MessageInput
           value={message}
           onChange={setMessage}
           placeholder="Paste your message here..."
         />
-        
+
         <ContextInput
           context={context}
           onContextChange={setContext}
@@ -71,22 +71,18 @@ export default function Home() {
           onPlatformChange={setPlatform}
         />
 
-        <button 
-          onClick={handleCheck} 
+        <button
+          onClick={handleCheck}
           disabled={loading || !message.trim()}
           className="check-button"
         >
           {loading ? 'Checking...' : 'Sanity Check'}
         </button>
 
-        {error && (
-          <div className="error">
-            {error}
-          </div>
-        )}
+        {error && <div className="error">{error}</div>}
 
         {loading && <LoadingSpinner />}
-        
+
         {result && <SanityResults result={result} />}
       </main>
     </div>

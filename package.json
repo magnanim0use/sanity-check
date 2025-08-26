@@ -9,17 +9,18 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
+    "googleapis": "^156.0.0",
     "next": "^14.0.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
     "openai": "^4.0.0",
-    "cheerio": "^1.0.0-rc.12"
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
   },
   "devDependencies": {
+    "@types/cheerio": "^0.22.31",
     "@types/node": "^20.0.0",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
-    "typescript": "^5.0.0",
-    "@types/cheerio": "^0.22.31"
+    "typescript": "^5.0.0"
   }
 }

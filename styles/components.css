@@ -48,7 +48,7 @@
   gap: 0.5rem;
 }
 
-.retry-button, .manual-button {
+.retry-button, .manual-button, .google-auth-button {
   padding: 0.25rem 0.75rem;
   border: 1px solid #ff9800;
   background-color: #fff;
@@ -57,6 +57,21 @@
   cursor: pointer;
   font-size: 0.8rem;
   transition: all 0.2s ease;
+}
+
+.google-auth-button {
+  border-color: #4285f4;
+  color: #4285f4;
+  background-color: #fff;
+}
+
+.google-auth-button:hover {
+  background-color: #f1f3f4;
+}
+
+.google-auth-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .retry-button:hover, .manual-button:hover {

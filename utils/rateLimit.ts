@@ -15,8 +15,8 @@ export interface RateLimitResult {
 }
 
 export function checkRateLimit(
-  clientId: string, 
-  maxRequests: number = 10, 
+  clientId: string,
+  maxRequests: number = 10,
   windowMs: number = 60000
 ): RateLimitResult {
   const now = Date.now();
@@ -28,7 +28,7 @@ export function checkRateLimit(
     return {
       allowed: true,
       remaining: maxRequests - 1,
-      resetTime
+      resetTime,
     };
   }
 
@@ -36,7 +36,7 @@ export function checkRateLimit(
     return {
       allowed: false,
       remaining: 0,
-      resetTime: clientData.resetTime
+      resetTime: clientData.resetTime,
     };
   }
 
@@ -44,10 +44,9 @@ export function checkRateLimit(
   return {
     allowed: true,
     remaining: maxRequests - clientData.count,
-    resetTime: clientData.resetTime
+    resetTime: clientData.resetTime,
   };
 }
-
 
 export function cleanupExpiredEntries(): void {
   const now = Date.now();

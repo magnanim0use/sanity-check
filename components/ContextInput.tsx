@@ -90,7 +90,7 @@ export function ContextInput({
 
       {extractionError && (
         <div className="extraction-error">
-          <div className="error-message">⚠️ {extractionError}</div>
+          <div className="error-message">{extractionError}</div>
           <div className="error-actions">
             <button
               type="button"
@@ -125,7 +125,7 @@ export function ContextInput({
       />
 
       <div className="context-help">
-        💡 <strong>Tip:</strong> You can paste a URL and we'll automatically
+        <strong>Tip:</strong> You can paste a URL and we'll automatically
         extract the content, or paste the actual text content for best results.
       </div>
 

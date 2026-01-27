@@ -57,7 +57,7 @@ export function SanityResults({ result }: SanityResultsProps) {
 
       {!result.hasIssues && (
         <div className="no-issues">
-          <h3>✅ No Issues Found</h3>
+          <h3>No Issues Found</h3>
           <p>Your message looks good to go!</p>
         </div>
       )}

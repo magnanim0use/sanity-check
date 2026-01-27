@@ -1,6 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import OpenAI from 'openai';
-import { validateSanityCheckInput, handleValidationError } from '../../utils/inputValidation';
+import {
+  validateSanityCheckInput,
+  handleValidationError,
+} from '../../utils/inputValidation';
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -48,11 +51,11 @@ export default async function handler(
 
   try {
     const completion = await openai.chat.completions.create({
-      model: "gpt-4",
+      model: 'gpt-5.2',
       messages: [
-        { role: "system", content: SANITY_CHECK_PROMPT },
-        { 
-          role: "user", 
+        { role: 'system', content: SANITY_CHECK_PROMPT },
+        {
+          role: 'user',
           content: `MESSAGE TO CHECK:
 """
 ${message}
@@ -62,15 +65,15 @@ CONTEXT:
 - Platform: ${platform || 'Unknown'}
 - Context: ${context || 'No additional context provided'}
 
-Please analyze this message for any issues.`
-        }
+Please analyze this message for any issues.`,
+        },
       ],
       temperature: 0.1,
-      max_tokens: 1000,
+      max_completion_tokens: 1000,
     });
 
     const result = completion.choices[0].message?.content;
-    
+
     try {
       const parsedResult = JSON.parse(result || '{}');
       res.status(200).json(parsedResult);
@@ -79,15 +82,17 @@ Please analyze this message for any issues.`
         overallScore: 50,
         hasIssues: false,
         issues: [],
-        summary: "Analysis completed but results couldn't be parsed properly."
+        summary: "Analysis completed but results couldn't be parsed properly.",
       });
     }
-
   } catch (error) {
     console.error('OpenAI API error:', error);
-    res.status(500).json({ 
+    res.status(500).json({
       error: 'Failed to analyze message',
-      details: process.env.NODE_ENV === 'development' ? (error as Error).message : undefined
+      details:
+        process.env.NODE_ENV === 'development'
+          ? (error as Error).message
+          : undefined,
     });
   }
 }

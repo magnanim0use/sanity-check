@@ -4,7 +4,7 @@ A Next.js app that helps you catch embarrassing mistakes in your messages before
 
 ## Features
 
-- AI-powered message analysis using OpenAI's GPT-4
+- AI-powered message analysis using OpenAI's GPT-5.2
 - Detects entity mismatches, tone issues, attachment problems, and basic errors
 - Works with various platforms (Email, Slack, Teams, LinkedIn, etc.)
 - Clean, responsive UI with real-time feedback
